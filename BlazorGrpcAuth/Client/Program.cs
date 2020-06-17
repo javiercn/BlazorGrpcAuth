@@ -31,8 +31,8 @@ namespace BlazorGrpcAuth.Client
             {
                 var baseAddressMessageHandler = sp.GetRequiredService<BaseAddressAuthorizationMessageHandler>();
                 baseAddressMessageHandler.InnerHandler = new HttpClientHandler();
-                var httpClient = new HttpClient(new GrpcWebHandler(GrpcWebMode.GrpcWeb, baseAddressMessageHandler));
-                var channel = GrpcChannel.ForAddress(builder.HostEnvironment.BaseAddress, new GrpcChannelOptions { HttpClient = httpClient });
+                var grpcWebHandler = new GrpcWebHandler(GrpcWebMode.GrpcWeb, baseAddressMessageHandler);
+                var channel = GrpcChannel.ForAddress(builder.HostEnvironment.BaseAddress, new GrpcChannelOptions { HttpHandler = grpcWebHandler });
                 return new Greeter.GreeterClient(channel);
             });
 
